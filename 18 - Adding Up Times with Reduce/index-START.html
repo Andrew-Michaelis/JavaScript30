@@ -182,6 +182,23 @@
     </li>
   </ul>
 <script>
+  //spread the data into an array, because otherwise it's a node
+  const timeNodes = [...document.querySelectorAll("[data-time]")]; 
+  const seconds = timeNodes
+    .map(node => node.dataset.time); //map the data-time variable into the array
+    .map(timeCode => { 
+      const [mins, secs] = timeCode //split the displayed time into minutes and seconds
+        .split(":") //using the colon as the divisive factor
+        .map(parseFloat); //making sure to return as numbers not as strings
+      return (mins * 60) + secs; //translating into seconds only
+    })
+    .reduce((total, vidSeconds) => return total + vidSeconds); //reducing to total seconds
+  let secondsLeft = seconds; //setting variable to operate on
+  const hours = Math.floor(secondsLeft/3600); //determining integer hour values
+  secondsLeft = secondsLeft%3600; //setting remaining time to the remainder after hours is calculated
+  const mins = Math.floor(secondsLeft/60); //determining integer minute values
+  secondsLeft = secondsLeft%60; //setting remaining time to the remainder after minutes is calculated
+  console.log(`${hours}:${mins}:${secondsLeft}`); //logging time value in hr:min:sec format
 </script>
 </body>
 </html>
