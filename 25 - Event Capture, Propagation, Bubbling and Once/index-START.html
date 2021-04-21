@@ -41,8 +41,24 @@
 </style>
 
 <button></button>
-<script>
-
+<script> //clicking on a nested div clicks on everything it's nested within. refered to as bubbling
+  const divs = document.querySelectorAll("div");
+  
+  function logText(e){
+    e.stopPropagation(); //stop bubbling
+    console.log(this);
+  }
+  
+  divs.forEach(div=>div.addEventListener("click", logText, {
+//     capture: true, //runs the function on the way down rather than up
+//     once: true //listens for a click once then unbinds itself
+  }));
+  
+  button.addEventListener("click", () => {
+    console.log("clicked");
+  }, {
+    once: true
+  });
 </script>
 </body>
 </html>
